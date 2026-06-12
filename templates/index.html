@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOX-INSPECT // Defect Detection System</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- LOTTIE BG — absolutely behind everything, full viewport -->
+<div id="lottie-bg" aria-hidden="true"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo-icon">
+      <!-- PCB chip SVG -->
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="16" height="16" rx="2.5"/>
+        <rect x="11" y="11" width="10" height="10" rx="1.5"/>
+        <line x1="16" y1="2" x2="16" y2="8"/><line x1="16" y1="24" x2="16" y2="30"/>
+        <line x1="2" y1="16" x2="8" y2="16"/><line x1="24" y1="16" x2="30" y2="16"/>
+        <line x1="8"  y1="11" x2="4"  y2="8"/><line x1="24" y1="11" x2="28" y2="8"/>
+        <line x1="8"  y1="21" x2="4"  y2="24"/><line x1="24" y1="21" x2="28" y2="24"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">BOX-INSPECT</span>
+      <span class="logo-ver">BOX DEFECT DETECTION v2.0</span>
+    </div>
+  </div>
+
+  <nav class="topbar-nav">
+    <!-- Dashboard -->
+    <button class="nav-btn active" data-section="dashboard">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+        <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+        <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+        <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+      </svg>
+      Dashboard
+    </button>
+    <!-- Controls -->
+    <button class="nav-btn" data-section="controls">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <circle cx="10" cy="10" r="3"/>
+        <path d="M10 2v3M10 15v3M2 10h3M15 10h3M4.9 4.9l2.1 2.1M13 13l2.1 2.1M4.9 15.1l2.1-2.1M13 7l2.1-2.1"/>
+      </svg>
+      Controls
+    </button>
+    <!-- History -->
+    <button class="nav-btn" data-section="history">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 6h12M4 10h8M4 14h10"/>
+      </svg>
+      History
+    </button>
+    <!-- Analytics -->
+    <button class="nav-btn" data-section="analytics">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <polyline points="2,15 6,9 10,12 14,5 18,8"/>
+        <line x1="2" y1="18" x2="18" y2="18"/>
+      </svg>
+      Analytics
+    </button>
+  </nav>
+
+  <div class="topbar-right">
+    <div class="pill-status">
+      <div class="pill-dot" id="conv-dot"></div>
+      <div>
+        <div class="pill-label">CONVEYOR</div>
+        <div class="pill-val" id="conv-val">IDLE</div>
+      </div>
+    </div>
+    <div class="pill-status">
+      <div class="pill-dot" id="cam-dot"></div>
+      <div>
+        <div class="pill-label">CAMERA</div>
+        <div class="pill-val" id="cam-val">OFFLINE</div>
+      </div>
+    </div>
+    <div class="clock-wrap">
+      <div class="clock-time" id="clock">00:00:00</div>
+      <div class="clock-date" id="clock-date">--</div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ══════════ DASHBOARD ══════════ -->
+  <section class="page active" id="page-dashboard">
+
+    <!-- Stat bar -->
+    <div class="stat-bar glass">
+      <div class="stat-cell">
+        <span class="stat-n" id="stat-total">—</span>
+        <span class="stat-l">TOTAL INSPECTED</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-cell">
+        <span class="stat-n c-good" id="stat-good">—</span>
+        <span class="stat-l">NORMAL</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-cell">
+        <span class="stat-n c-bad" id="stat-defect">—</span>
+        <span class="stat-l">DEFECTIVE</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-cell">
+        <span class="stat-n c-amber" id="stat-rate">—</span>
+        <span class="stat-l">DEFECT RATE</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-cell">
+        <span class="stat-n" style="font-size:13px" id="stat-upd">—</span>
+        <span class="stat-l">LAST UPDATE</span>
+      </div>
+    </div>
+
+    <!-- 50/50 split -->
+    <div class="split">
+
+      <!-- LEFT: camera -->
+      <div class="split-left">
+        <div class="glass cam-card">
+          <div class="card-hdr">
+            <div class="hdr-l">
+              <!-- Camera SVG -->
+              <svg class="hdr-ico" viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                <rect x="1" y="4" width="15" height="13" rx="2"/>
+                <polyline points="16,7.5 21,4 21,17 16,13.5"/>
+                <circle cx="8.5" cy="10.5" r="3"/>
+              </svg>
+              <span class="card-title">LIVE CAMERA FEED</span>
+            </div>
+            <div class="hdr-r">
+              <div class="rec-pill" id="rec-pill">
+                <div class="rec-dot"></div>REC
+              </div>
+              <button class="gbtn gbtn-go"   onclick="startCamera()">
+                <svg viewBox="0 0 10 12" fill="currentColor"><polygon points="1,1 9,6 1,11"/></svg>
+                START
+              </button>
+              <button class="gbtn gbtn-stop" onclick="stopCamera()">
+                <svg viewBox="0 0 12 12" fill="currentColor"><rect x="1" y="1" width="10" height="10" rx="1.5"/></svg>
+                STOP
+              </button>
+            </div>
+          </div>
+
+          <div class="cam-view">
+            <img id="cam-img" src="/api/camera/stream" alt="feed" class="cam-img"/>
+            <div class="cam-badge" id="cam-badge">
+              <div class="cam-dot" id="cam-live-dot"></div>
+              <span id="cam-live-txt">CAM_01 // OFFLINE</span>
+            </div>
+            <!-- Corner markers -->
+            <span class="cm cm-tl"></span><span class="cm cm-tr"></span>
+            <span class="cm cm-bl"></span><span class="cm cm-br"></span>
+          </div>
+
+          <div class="card-foot">
+            <button class="run-btn" onclick="simulateDetection()">
+              <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="11" cy="11" r="9"/>
+                <circle cx="11" cy="11" r="3.5"/>
+                <line x1="11" y1="2" x2="11" y2="4.5"/>
+                <line x1="11" y1="17.5" x2="11" y2="20"/>
+                <line x1="2" y1="11" x2="4.5" y2="11"/>
+                <line x1="17.5" y1="11" x2="20" y2="11"/>
+              </svg>
+              RUN INSPECTION
+            </button>
+            <span class="foot-hint">Trigger AI analysis on current frame</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: info -->
+      <div class="split-right">
+
+        <!-- Detection result -->
+        <div class="glass r-card">
+          <div class="card-hdr">
+            <div class="hdr-l">
+              <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                <circle cx="11" cy="11" r="9"/>
+                <polyline points="7,11 10,14 15,8"/>
+              </svg>
+              <span class="card-title">DETECTION RESULT</span>
+            </div>
+            <span class="tag">AI OUTPUT</span>
+          </div>
+          <div class="card-body" id="det-result">
+            <div class="wait-state">
+              <div class="spin-ring"></div>
+              <span class="wait-txt">AWAITING INSPECTION</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hardware signal -->
+        <div class="glass r-card">
+          <div class="card-hdr">
+            <div class="hdr-l">
+              <!-- Arm SVG -->
+              <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                <path d="M4 18 Q7 12 11 10 Q15 8 18 4"/>
+                <path d="M11 10 L14 14"/>
+                <circle cx="18" cy="4" r="2"/>
+                <circle cx="4" cy="18" r="2"/>
+              </svg>
+              <span class="card-title">HARDWARE SIGNAL</span>
+            </div>
+            <span class="tag">ROBOT ARM</span>
+          </div>
+          <div class="card-body">
+            <div class="sig-list">
+              <div class="sig-row" id="sig-accept">
+                <div class="sig-dot"></div>
+                <div>
+                  <div class="sig-name">ACCEPT</div>
+                  <div class="sig-desc">Good PCB → place in accept bin</div>
+                </div>
+              </div>
+              <div class="sig-row" id="sig-reject">
+                <div class="sig-dot"></div>
+                <div>
+                  <div class="sig-name">REJECT</div>
+                  <div class="sig-desc">Defective PCB → place in reject bin</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trend -->
+        <div class="glass r-card r-grow">
+          <div class="card-hdr">
+            <div class="hdr-l">
+              <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                <polyline points="2,17 6,11 10,14 14,7 18,10"/>
+                <line x1="2" y1="20" x2="20" y2="20"/>
+              </svg>
+              <span class="card-title">INSPECTION TREND</span>
+            </div>
+            <span class="tag">LAST 20</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="trend-chart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CONTROLS ══════════ -->
+  <section class="page" id="page-controls">
+    <div class="pg-hdr">
+      <h2 class="pg-title">SYSTEM CONTROLS</h2>
+      <p class="pg-sub">Manual override panel for conveyor and camera systems</p>
+    </div>
+    <div class="ctrl-grid">
+
+      <!-- Conveyor + breathing gear -->
+      <div class="glass ctrl-card">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <circle cx="11" cy="11" r="3.5"/>
+              <path d="M11 2v3M11 17v3M2 11h3M17 11h3M4.9 4.9l2.1 2.1M15 15l2.1 2.1M4.9 17.1l2.1-2.1M15 7l2.1-2.1"/>
+            </svg>
+            <span class="card-title">CONVEYOR CONTROL</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="pill-dot" id="ctrl-dot"></div>
+            <span class="tag" id="ctrl-txt">IDLE</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="gear-wrap" class="gear-wrap"></div>
+          <div class="cbtn-row">
+            <button class="cbtn c-start" onclick="conveyorControl('start')">
+              <svg viewBox="0 0 14 14" fill="currentColor" width="18" height="18"><polygon points="2,2 12,7 2,12"/></svg>
+              START
+            </button>
+            <button class="cbtn c-stop" onclick="conveyorControl('stop')">
+              <svg viewBox="0 0 14 14" fill="currentColor" width="18" height="18"><rect x="1" y="1" width="12" height="12" rx="2"/></svg>
+              STOP
+            </button>
+            <button class="cbtn c-estop" onclick="conveyorControl('emergency')">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="18" height="18"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5M7 9.5v.5"/></svg>
+              E-STOP
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camera ctrl -->
+      <div class="glass ctrl-card">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <rect x="1" y="4" width="15" height="13" rx="2"/>
+              <polyline points="16,7.5 21,4 21,17 16,13.5"/>
+              <circle cx="8.5" cy="10.5" r="3"/>
+            </svg>
+            <span class="card-title">CAMERA CONTROL</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="cbtn-row" style="grid-template-columns:1fr 1fr;">
+            <button class="cbtn c-start" onclick="startCamera()">
+              <svg viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" width="20" height="16">
+                <rect x="1" y="4" width="15" height="13" rx="2"/><polyline points="16,7.5 21,4 21,17 16,13.5"/>
+              </svg>
+              START CAM
+            </button>
+            <button class="cbtn c-stop" onclick="stopCamera()">
+              <svg viewBox="0 0 14 14" fill="currentColor" width="18" height="18"><rect x="1" y="1" width="12" height="12" rx="2"/></svg>
+              STOP CAM
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual detect -->
+      <div class="glass ctrl-card">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <circle cx="9" cy="9" r="6.5"/>
+              <line x1="14" y1="14" x2="20" y2="20"/>
+            </svg>
+            <span class="card-title">MANUAL INSPECTION</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="ctrl-desc">Manually trigger AI detection on the current camera frame. In production this fires automatically when a PCB enters the detection zone.</p>
+          <button class="run-btn full" onclick="simulateDetection()">
+            <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="18" height="18">
+              <circle cx="11" cy="11" r="9"/><circle cx="11" cy="11" r="3.5"/>
+            </svg>
+            RUN INSPECTION
+          </button>
+          <div id="ctrl-det-result" style="display:none;margin-top:14px;"></div>
+        </div>
+      </div>
+
+      <!-- Log -->
+      <div class="glass ctrl-card">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <path d="M4 7h14M4 11h9M4 15h11"/>
+            </svg>
+            <span class="card-title">ACTIVITY LOG</span>
+          </div>
+          <span class="tag" id="log-count">0 EVENTS</span>
+        </div>
+        <div class="card-body log-body">
+          <div id="ctrl-log"><div class="log-empty">NO ACTIVITY YET</div></div>
+        </div>
+      </div>
+
+      <!-- PCB defect classes — span 2 -->
+      <div class="glass" style="grid-column:span 2;">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <rect x="3" y="3" width="16" height="16" rx="2.5"/>
+              <circle cx="7.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/>
+              <circle cx="7.5" cy="14.5" r="1.5"/><circle cx="14.5" cy="14.5" r="1.5"/>
+              <path d="M11 7.5v7M7.5 11h7"/>
+            </svg>
+            <span class="card-title">PCB DEFECT CLASSES</span>
+          </div>
+          <span class="tag">MODEL CLASSES — 2 CATEGORIES</span>
+        </div>
+        <div class="card-body">
+          <div class="dfc-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="dfc-item"><span class="dfc-dot" style="background:#FF5C5C;box-shadow:0 0 12px #FF5C5C88"></span><div><div class="dfc-name">DEFFECT</div><div class="dfc-desc">Object detected as defective — robot arm picks and places in reject bin. Signal: REJECT</div></div></div>
+            <div class="dfc-item"><span class="dfc-dot" style="background:#00FFC8;box-shadow:0 0 12px #00FFC888"></span><div><div class="dfc-name">NORMAL</div><div class="dfc-desc">Object detected as normal/good — conveyor continues. Signal: ACCEPT</div></div></div>
+          </div>
+          <div style="margin-top:14px;padding:12px 14px;background:rgba(77,159,255,.06);border:1px solid rgba(77,159,255,.18);border-radius:10px;">
+            <div style="font-family:Orbitron,monospace;font-size:10px;letter-spacing:1.5px;color:rgba(200,225,255,.5);margin-bottom:6px;">CLASS MAPPING</div>
+            <div style="font-family:Share Tech Mono,monospace;font-size:12px;color:rgba(200,225,255,.65);line-height:1.8;">
+              Model output: <span style="color:#FF5C5C;">deffect</span> → status: DEFECT → ESP32: <span style="color:#FF5C5C;">DEFFECT
+</span><br>
+              Model output: <span style="color:#00FFC8;">normal</span>  → status: NORMAL → ESP32: <span style="color:#00FFC8;">OK
+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ HISTORY ══════════ -->
+  <section class="page" id="page-history">
+    <div class="pg-hdr">
+      <h2 class="pg-title">INSPECTION HISTORY</h2>
+      <p class="pg-sub">Complete detection log with Box defect sub-classification</p>
+    </div>
+    <div class="glass">
+      <div class="card-hdr">
+        <div class="hdr-l">
+          <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M4 7h14M4 11h9M4 15h11"/>
+          </svg>
+          <span class="card-title">DETECTION RECORDS</span>
+          <span class="tag" id="hist-count">0 RECORDS</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="fbtn active" onclick="filterHistory('all',this)">ALL</button>
+          <button class="fbtn" onclick="filterHistory('good',this)">GOOD</button>
+          <button class="fbtn" onclick="filterHistory('defect',this)">DEFECT</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="dtable">
+          <thead><tr><th>#</th><th>TIMESTAMP</th><th>STATUS</th><th>DEFECT TYPE</th><th>CONFIDENCE</th><th>SIGNAL</th></tr></thead>
+          <tbody id="hist-tbody">
+            <tr><td colspan="6" class="empty-row">NO RECORDS YET — RUN FIRST INSPECTION</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ANALYTICS ══════════ -->
+  <section class="page" id="page-analytics">
+    <div class="pg-hdr">
+      <h2 class="pg-title">ANALYTICS</h2>
+      <p class="pg-sub">Statistical breakdown of PCB defect distribution</p>
+    </div>
+    <div class="an-grid">
+
+      <!-- Radial donut -->
+      <div class="glass">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <circle cx="11" cy="11" r="9"/><path d="M11 2a9 9 0 0 1 9 9"/>
+            </svg>
+            <span class="card-title">QUALITY RATIO</span>
+          </div>
+        </div>
+        <div class="card-body an-donut-wrap">
+          <div class="donut-pos">
+            <canvas id="donut-chart" width="180" height="180"></canvas>
+            <div class="donut-center">
+              <span class="donut-pct" id="donut-pct">—</span>
+              <span class="donut-lbl">GOOD</span>
+            </div>
+          </div>
+          <div id="donut-leg" class="donut-leg"></div>
+        </div>
+      </div>
+
+      <!-- Defect bars -->
+      <div class="glass">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <rect x="2" y="5" width="9" height="3" rx="1.5"/>
+              <rect x="2" y="10" width="16" height="3" rx="1.5"/>
+              <rect x="2" y="15" width="7" height="3" rx="1.5"/>
+            </svg>
+            <span class="card-title">DEFECT BREAKDOWN</span>
+          </div>
+          <span class="tag">PER CLASS</span>
+        </div>
+        <div class="card-body" id="sub-summary"></div>
+      </div>
+
+      <!-- Gradient bar chart — span 2 -->
+      <div class="glass" style="grid-column:span 2;">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <rect x="3" y="12" width="3" height="8" rx="1"/>
+              <rect x="8" y="7" width="3" height="13" rx="1"/>
+              <rect x="13" y="4" width="3" height="16" rx="1"/>
+              <rect x="18" y="9" width="2" height="11" rx="1"/>
+            </svg>
+            <span class="card-title">DEFECT DISTRIBUTION</span>
+          </div>
+          <span class="tag">6 DEFECT CLASSES</span>
+        </div>
+        <div class="card-body" style="padding:16px;">
+          <div style="height:280px;position:relative;"><canvas id="subcls-chart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Radar -->
+      <div class="glass">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <polygon points="11,2 20,7.5 20,14.5 11,20 2,14.5 2,7.5"/>
+              <polygon points="11,6 16,8.8 16,13.2 11,16 6,13.2 6,8.8" opacity=".4"/>
+            </svg>
+            <span class="card-title">SEVERITY MAP</span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:16px;">
+          <div style="height:200px;position:relative;"><canvas id="radar-chart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Session summary -->
+      <div class="glass">
+        <div class="card-hdr">
+          <div class="hdr-l">
+            <svg class="hdr-ico" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <rect x="4" y="2" width="14" height="18" rx="2.5"/>
+              <path d="M8 8h6M8 11h6M8 14h4"/>
+            </svg>
+            <span class="card-title">SESSION SUMMARY</span>
+          </div>
+        </div>
+        <div class="card-body" id="session-summary"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="toast"></div>
+<script src="/static/main.js"></script>
+</body>
+</html>
