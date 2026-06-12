@@ -1,223 +1,128 @@
-# Industrial Quality Inspection System
+# 🏭 Industrial Quality Inspection System
 
-An academic team project developed to demonstrate the integration of Artificial Intelligence, Computer Vision, Robotics, and Industrial Automation within a smart manufacturing environment.
+An AI-powered industrial automation platform developed to simulate modern quality control processes in manufacturing environments.
 
-The project aims to automate quality inspection processes by combining AI-based defect detection, robotic sorting mechanisms, and real-time monitoring dashboards. The system simulates how modern manufacturing facilities can utilize intelligent technologies to improve product quality control, reduce manual inspection efforts, and enhance operational efficiency.
+The system combines computer vision, robotics, industrial automation, and real-time monitoring technologies to automatically inspect products, classify defects, and perform robotic sorting operations.
 
-This project was developed as part of an undergraduate Artificial Intelligence and Robotics learning experience at President University.
-
----
-
-## Project Overview
-
-Quality inspection remains one of the most important processes in manufacturing industries. Traditional inspection methods often rely on manual observation, which can be time-consuming and prone to human error.
-
-To address this challenge, the Industrial Quality Inspection System was developed to automatically identify defective products using computer vision technologies and perform automated sorting through robotic mechanisms.
-
-The system combines image-based defect detection, conveyor automation, robotic arm control, and web-based monitoring into a single workflow.
+Using YOLOv8 object detection models, camera-based inspection workflows, ESP32 communication, and web-based dashboards, the platform demonstrates how Artificial Intelligence can be integrated into Industry 4.0 environments to improve quality assurance and operational efficiency.
 
 ---
 
-## Objectives
+## ✨ Key Features
 
-* Demonstrate the application of Artificial Intelligence in industrial environments.
-* Implement computer vision techniques for automated product inspection.
-* Integrate AI outputs with robotic sorting mechanisms.
-* Develop a monitoring dashboard for production visibility and inspection reporting.
-* Simulate smart manufacturing and Industry 4.0 concepts.
+### 🤖 AI-Powered Product Inspection
 
----
+- Real-time defect detection using YOLOv8
+- Automated product classification
+- Detection confidence scoring
+- Continuous inspection workflow
 
-## Key Features
+### 🏭 Industrial Automation
 
-### AI-Based Defect Detection
+- Conveyor belt control integration
+- ESP32 communication layer
+- Robotic sorting commands
+- Automated inspection decisions
 
-* Automated product inspection using computer vision.
-* Real-time classification of products into predefined categories.
-* Detection of acceptable and defective products.
+### 📹 Live Monitoring
 
-### Robotic Sorting System
+- Real-time camera streaming
+- MJPEG live feed support
+- Inspection visualization
+- Production monitoring interface
 
-* Automated sorting process based on inspection results.
-* Integration with robotic arm movement logic.
-* Conveyor-based product transportation workflow.
+### 📊 Dashboard & Analytics
 
-### Real-Time Monitoring Dashboard
+- Production statistics
+- Inspection history tracking
+- Classification records
+- Operational monitoring dashboard
 
-* Live inspection monitoring.
-* Product classification visualization.
-* Historical inspection records.
-* Production activity tracking.
-* Dashboard-based operational visibility.
+### 💾 Data Management
 
-### Industrial Automation Workflow
+- SQLite inspection logging
+- Historical detection records
+- Production activity tracking
+- Event monitoring
 
-* AI-assisted inspection process.
-* Automated decision-making workflow.
-* Hardware and software integration.
-* End-to-end inspection simulation.
+### 🚨 Safety Controls
 
----
+- Emergency stop functionality
+- Conveyor control management
+- Operational status monitoring
+- System state tracking
 
-## System Workflow
+## 🛠 Technology Stack
 
-### 1. Product Input
+### Artificial Intelligence
 
-Products are placed on the conveyor system and move through the inspection area.
+- YOLOv8
+- Computer Vision
+- Object Detection
+- Image Classification
 
-### 2. Image Acquisition
+### Backend
 
-A camera captures images of products during the inspection process.
-
-### 3. AI Inspection
-
-The computer vision model analyzes product images and determines inspection results based on trained classification criteria.
-
-### 4. Decision Generation
-
-The system generates inspection outcomes and sends corresponding instructions to the automation controller.
-
-### 5. Product Sorting
-
-The robotic arm automatically sorts products according to the inspection result.
-
-### 6. Monitoring & Reporting
-
-Inspection data and operational activities are displayed through the monitoring dashboard for analysis and reporting purposes.
-
----
-
-## Technology Stack
-
-### Artificial Intelligence & Computer Vision
-
-* YOLOv8
-* Object Detection
-* Image Classification
-* Computer Vision
-
-### Backend Development
-
-* Python
-* Flask
-
-### Hardware Integration
-
-* ESP32
-* Robotic Arm
-* Conveyor System
-
-### Monitoring System
-
-* Flask Dashboard
-* Real-Time Data Visualization
+- Flask
+- Python
 
 ### Database
 
-* SQLite
+- SQLite
 
----
+### Hardware Integration
 
-## Team Contributions
+- ESP32
+- Conveyor System
+- Robotic Arm
+- Camera Modules
 
-The project was developed collaboratively by a multidisciplinary student team.
+### Communication
 
-Areas of contribution included:
+- Serial Communication
+- REST API
+- Real-Time Monitoring
 
-* Artificial Intelligence & Computer Vision
-* Robotics Integration
-* Hardware Communication
-* Dashboard Development
-* Testing & Validation
-* System Integration
+### Development Tools
 
-My contribution focused on the development of the monitoring dashboard and web-based visualization interfaces used to display inspection results, production information, and operational monitoring data.
+- Git
+- GitHub
+- OpenCV
+## 🏗 System Architecture
 
----
+Industrial Quality Inspection System consists of four main layers:
 
-## Educational Outcomes
+### 1. Vision Layer
 
-Through this project, team members gained practical experience in:
+Responsible for image acquisition and defect detection.
 
-* Computer Vision Applications
-* Industrial Automation Concepts
-* AI System Integration
-* Robotics Workflows
-* Full-Stack System Development
-* Team-Based Engineering Projects
+- Camera input
+- Frame processing
+- YOLOv8 inference
+- Classification generation
 
----
+### 2. Decision Layer
 
-## Potential Applications
+Processes AI outputs and generates inspection decisions.
 
-The concepts demonstrated in this project can be applied to:
+- Confidence evaluation
+- Product classification
+- Sorting instructions
 
-* Manufacturing Quality Control
-* Smart Factory Systems
-* Automated Inspection Processes
-* Industrial Monitoring Systems
-* Industry 4.0 Learning Environments
+### 3. Automation Layer
 
----
+Controls physical devices and industrial workflows.
 
-## Repository Structure
+- ESP32 communication
+- Conveyor management
+- Robotic arm commands
+- Emergency control
 
-```bash
-industrial-quality-inspection-system
-│
-├── backend.py
-├── best.pt
-├── best.onnx
-├── HardwareCode.txt
-│
-├── dashboard/
-│   ├── app.py
-│   ├── models/
-│   └── box.db
-│
-├── static/
-├── templates/
-│
-└── README.md
-```
+### 4. Monitoring Layer
 
----
+Provides visibility into production activities.
 
-## Installation
-
-### Clone Repository
-
-```bash
-git clone https://github.com/sahoyy/industrial-quality-inspection-system.git
-cd industrial-quality-inspection-system
-```
-
-### Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Run Dashboard
-
-```bash
-python app.py
-```
-
-### Run Detection Service
-
-```bash
-python backend.py
-```
-
----
-
-## Disclaimer
-
-This repository was developed for academic and educational purposes as part of an undergraduate team project. The project serves as a demonstration of AI, robotics, and automation concepts within a simulated industrial environment.
-
----
-
-## License
-
-Educational Use Only
+- Dashboard interface
+- Detection history
+- Statistics monitoring
+- Operational reporting
