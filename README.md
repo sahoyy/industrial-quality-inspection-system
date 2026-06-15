@@ -1,10 +1,24 @@
 # 🏭 Industrial Quality Inspection System
 
-An AI-powered industrial automation platform developed to simulate modern quality control processes in manufacturing environments.
+An AI-powered industrial automation platform developed as an academic team project to demonstrate the integration of Computer Vision, Industrial Automation, Robotics, and Real-Time Monitoring within a smart manufacturing environment.
 
-The system combines computer vision, robotics, industrial automation, and real-time monitoring technologies to automatically inspect products, classify defects, and perform robotic sorting operations.
+The system automates quality inspection workflows by utilizing a YOLOv8-based computer vision model to classify products, communicate inspection results to industrial hardware through ESP32 controllers, and visualize production activities through a centralized monitoring dashboard.
 
-Using YOLOv8 object detection models, camera-based inspection workflows, ESP32 communication, and web-based dashboards, the platform demonstrates how Artificial Intelligence can be integrated into Industry 4.0 environments to improve quality assurance and operational efficiency.
+The project simulates how modern Industry 4.0 environments can leverage Artificial Intelligence and automation technologies to improve quality assurance processes, reduce manual inspection efforts, and increase operational visibility.
+
+---
+
+## 🎯 Project Objectives
+
+The primary objective of this project is to explore the practical implementation of Artificial Intelligence within industrial production workflows.
+
+Key goals include:
+
+- Automating quality inspection processes using Computer Vision.
+- Reducing dependency on manual product inspection.
+- Integrating AI decision-making with industrial hardware.
+- Developing a centralized production monitoring system.
+- Demonstrating Industry 4.0 concepts through an end-to-end workflow.
 
 ---
 
@@ -12,51 +26,64 @@ Using YOLOv8 object detection models, camera-based inspection workflows, ESP32 c
 
 ### 🤖 AI-Powered Product Inspection
 
-- Real-time defect detection using YOLOv8
-- Automated product classification
-- Detection confidence scoring
-- Continuous inspection workflow
+- YOLOv8-based object detection and classification.
+- Real-time product quality assessment.
+- Confidence score evaluation.
+- Automated defect identification.
+- Continuous inspection pipeline.
 
-### 🏭 Industrial Automation
+### 📹 Real-Time Vision System
 
-- Conveyor belt control integration
-- ESP32 communication layer
-- Robotic sorting commands
-- Automated inspection decisions
+- Live camera integration.
+- MJPEG streaming support.
+- Frame-by-frame processing.
+- Real-time visual feedback.
+- Detection result visualization.
 
-### 📹 Live Monitoring
+### ⚙ Industrial Automation Integration
 
-- Real-time camera streaming
-- MJPEG live feed support
-- Inspection visualization
-- Production monitoring interface
+- Conveyor system control.
+- ESP32 communication layer.
+- Hardware command transmission.
+- Automated production flow management.
+- Inspection-triggered hardware responses.
 
-### 📊 Dashboard & Analytics
+### 🦾 Robotic Sorting Workflow
 
-- Production statistics
-- Inspection history tracking
-- Classification records
-- Operational monitoring dashboard
+- Automated classification handling.
+- Accept / Reject decision generation.
+- Hardware signal transmission.
+- Sorting process integration.
 
-### 💾 Data Management
+### 📊 Production Monitoring Dashboard
 
-- SQLite inspection logging
-- Historical detection records
-- Production activity tracking
-- Event monitoring
+- Real-time production visibility.
+- Operational status monitoring.
+- Detection activity tracking.
+- Production statistics.
+- Inspection history records.
 
-### 🚨 Safety Controls
+### 💾 Detection History Management
 
-- Emergency stop functionality
-- Conveyor control management
-- Operational status monitoring
-- System state tracking
+- SQLite-based inspection logging.
+- Historical detection records.
+- Timestamp tracking.
+- Confidence score storage.
+- Classification reporting.
 
+### 🚨 Safety & Control Features
+
+- Emergency stop functionality.
+- Conveyor control management.
+- Operational state monitoring.
+- Hardware status tracking.
+
+---
 ## 🛠 Technology Stack
 
 ### Artificial Intelligence
 
-- YOLOv8
+- YOLOv8 Segmentation
 - Computer Vision
 - Object Detection
 - Image Classification
@@ -70,18 +97,66 @@ Using YOLOv8 object detection models, camera-based inspection workflows, ESP32 c
 
 - SQLite
 
-### Hardware Integration
+### Hardware & Automation
 
 - ESP32
 - Conveyor System
-- Robotic Arm
-- Camera Modules
+- Robotic Sorting Mechanism
+- Camera Module
 
 ### Communication
 
 - Serial Communication
 - REST API
-- Real-Time Monitoring
+- Real-Time Polling
+
+### Monitoring
+
+- Flask Dashboard
+- MJPEG Video Streaming
+- Production Analytics
+
+### Development Tools
+
+- Git
+- GitHub
+- OpenCV
+## 🛠 Technology Stack
+
+### Artificial Intelligence
+
+- YOLOv8 Segmentation
+- Computer Vision
+- Object Detection
+- Image Classification
+
+### Backend
+
+- Flask
+- Python
+
+### Database
+
+- SQLite
+
+### Hardware & Automation
+
+- ESP32
+- Conveyor System
+- Robotic Sorting Mechanism
+- Camera Module
+
+### Communication
+
+- Serial Communication
+- REST API
+- Real-Time Polling
+
+### Monitoring
+
+- Flask Dashboard
+- MJPEG Video Streaming
+- Production Analytics
 
 ### Development Tools
 
@@ -90,39 +165,75 @@ Using YOLOv8 object detection models, camera-based inspection workflows, ESP32 c
 - OpenCV
 ## 🏗 System Architecture
 
-Industrial Quality Inspection System consists of four main layers:
+Industrial Quality Inspection System consists of five major layers.
 
 ### 1. Vision Layer
 
-Responsible for image acquisition and defect detection.
+Responsible for image acquisition and preprocessing.
 
-- Camera input
-- Frame processing
-- YOLOv8 inference
-- Classification generation
+Components:
 
-### 2. Decision Layer
+- Camera Module
+- Frame Capture Engine
+- MJPEG Streaming
 
-Processes AI outputs and generates inspection decisions.
+### 2. AI Processing Layer
 
-- Confidence evaluation
-- Product classification
-- Sorting instructions
+Responsible for inspection and classification.
 
-### 3. Automation Layer
+Components:
 
-Controls physical devices and industrial workflows.
+- YOLOv8 Model
+- Detection Engine
+- Confidence Evaluation
 
-- ESP32 communication
-- Conveyor management
-- Robotic arm commands
-- Emergency control
+### 3. Decision Layer
 
-### 4. Monitoring Layer
+Responsible for translating AI outputs into industrial actions.
 
-Provides visibility into production activities.
+Components:
 
-- Dashboard interface
-- Detection history
-- Statistics monitoring
-- Operational reporting
+- Classification Handler
+- Decision Generator
+- Workflow Controller
+
+### 4. Automation Layer
+
+Responsible for hardware interaction.
+
+Components:
+
+- ESP32 Controller
+- Conveyor System
+- Robotic Sorting System
+
+### 5. Monitoring Layer
+
+Responsible for visibility and operational reporting.
+
+Components:
+
+- Flask Dashboard
+- Detection History
+- Production Analytics
+- Status Monitoring
+## 👥 Team Contributions
+
+This project was developed collaboratively as part of an undergraduate Artificial Intelligence and Robotics project.
+
+Areas of contribution included:
+
+- Computer Vision Development
+- Hardware Integration
+- Industrial Automation Design
+- Dashboard Development
+- System Testing & Validation
+- AI Model Integration
+
+My primary contribution focused on:
+
+- Dashboard Development
+- Monitoring Interface Implementation
+- Production Visualization
+- Detection Result Presentation
+- Frontend Integration
