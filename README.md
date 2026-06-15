@@ -237,3 +237,86 @@ My primary contribution focused on:
 - Production Visualization
 - Detection Result Presentation
 - Frontend Integration
+## 📁 Project Structure
+
+```bash
+industrial-quality-inspection-system/
+│
+├── app.py                     # Main Flask application
+├── HardwareCode.txt           # ESP32 and hardware communication code
+├── box.db                     # SQLite database
+├── yolov8n-seg.pt             # YOLOv8 segmentation model
+│
+├── templates/                 # HTML templates
+│   ├── dashboard.html
+│   ├── history.html
+│   ├── settings.html
+│   └── base.html
+│
+├── static/                    # Static assets
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── uploads/
+│
+├── models/                    # Database models
+│   ├── detection.py
+│   └── database.py
+│
+├── services/                  # Business logic
+│   ├── detector.py
+│   ├── camera_service.py
+│   ├── esp32_service.py
+│   └── logging_service.py
+│
+├── routes/                    # API routes
+│   ├── dashboard.py
+│   ├── api.py
+│   └── history.py
+│
+├── screenshots/               # Project screenshots
+│   ├── dashboard.png
+│   ├── detection.png
+│   └── history.png
+│
+├── requirements.txt
+├── README.md
+└── LICENSE
+```
+## 🌐 API Endpoints
+
+### System Status
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | `/api/status` | Retrieve system status |
+| GET | `/api/history` | Retrieve inspection history |
+| GET | `/video_feed` | Live camera stream |
+
+### Production Control
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| POST | `/start_detection` | Start inspection process |
+| POST | `/stop_detection` | Stop inspection process |
+| POST | `/emergency_stop` | Trigger emergency stop |
+
+### Monitoring
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | `/dashboard` | Production dashboard |
+| GET | `/history` | Detection history |
+```
+
+## 📈 Future Improvements
+
+- Multi-camera inspection support
+- Cloud-based monitoring dashboard
+- Predictive maintenance analytics
+- Defect trend visualization
+- Edge AI deployment on industrial devices
+- Real-time notification system
+- Production performance analytics
+- Role-based access control
+```
